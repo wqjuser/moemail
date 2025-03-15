@@ -320,28 +320,13 @@ const pushPagesSecret = () => {
 const deployPages = () => {
   console.log("🚧 Deploying to Cloudflare Pages...");
   try {
-    console.log("📁 Checking directories before build...");
-    execSync("ls -la", { stdio: "inherit" });
-       
-    console.log("🧹 Cleaning up previous builds...");
-    execSync("rm -rf .vercel/output .next", { stdio: "inherit" });
-       
-    console.log("🏗️ Running build:pages script...");
-    execSync("pnpm run build:pages", { stdio: "inherit" });
-       
-    console.log("📁 Checking output directory structure...");
-    execSync("ls -la .vercel/output/static", { stdio: "inherit" });
-       
-    console.log("🚀 Deploying to Cloudflare Pages...");
-    execSync("pnpm dlx wrangler pages deploy .vercel/output/static --branch main", { stdio: "inherit" });
-       
+    execSync("pnpm run build:pages && pnpm dlx wrangler pages deploy .vercel/output/static --branch main", { stdio: "inherit" });
     console.log("✅ Pages deployment completed successfully");
   } catch (error) {
     console.error("❌ Pages deployment failed:", error);
     throw error;
   }
 };
-
 
 /**
  * 部署Email Worker
